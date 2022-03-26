@@ -45,6 +45,8 @@ public class Employee {
 	@Column(name="dob")
 	@JsonFormat(pattern="yyyy/MM/dd")
     private LocalDateTime dob;
+	private String nmn;
+	
 	
 	
 

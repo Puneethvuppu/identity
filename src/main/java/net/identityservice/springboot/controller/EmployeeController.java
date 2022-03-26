@@ -20,7 +20,7 @@ import net.identityservice.springboot.service.EmployeeService;
 public class EmployeeController {
 	
 	private EmployeeService employeeService;
-
+	
 	public EmployeeController(EmployeeService employeeService) {
 		super();
 		this.employeeService = employeeService;
@@ -29,7 +29,7 @@ public class EmployeeController {
 	// build create employee REST API
 	@PostMapping()
 	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee){
-		System.out.println(employee.getAadhar());
+	
 		return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
 	}
 	
