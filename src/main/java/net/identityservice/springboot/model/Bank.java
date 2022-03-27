@@ -11,26 +11,39 @@ import javax.persistence.Table;
 public class Bank {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private long userAccountId;
+	
+	@Column(name="userId")
+	private long userId;
 	
 	@Column(name="Account_No")
-	private long accountNo;
+	private long bankAccountNumber;
 
-	public long getId() {
-		return id;
+	public long getUserAccountId() {
+		return userAccountId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserAccountId(long userAccountId) {
+		this.userAccountId = userAccountId;
 	}
 
-	public long getAccountNo() {
-		return accountNo;
+
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setAccountNo(long accountNo) {
-		this.accountNo = accountNo;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
+
+	public long getBankAccountNumber() {
+		return bankAccountNumber;
+	}
+
+	public void setBankAccountNumber(long bankAccountNumber) {
+		this.bankAccountNumber = bankAccountNumber;
+	}
+
 	
 	
 }

@@ -42,7 +42,7 @@ public class BankServiceImpl implements BankService{
 		Bank existingBank = bankrepository.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException("AccountNo", "Id", id)); 
 		
-		existingBank.setAccountNo(accountno.getAccountNo());
+		existingBank.setBankAccountNumber(accountno.getBankAccountNumber());
 		bankrepository.save(existingBank);
 		return existingBank;	
 	}

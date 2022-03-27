@@ -16,7 +16,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private long userId;
 	
 	@Column(name = "first_name",length=10)
 	private String firstName;
@@ -66,12 +66,12 @@ public class User {
 		this.mobile = mobile;
 	}
 
-	public long getId() {
-		return id;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -105,5 +105,7 @@ public class User {
 	public void setPan(String pan) {
 		this.pan = pan;
 	}
+
+	
 	
 }

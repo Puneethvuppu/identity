@@ -12,7 +12,10 @@ import javax.persistence.Table;
 public class Device {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long userDeviceId;
+	private long userDeviceDetailId;
+	
+	@Column(name="userId")
+	private long userId;
 	
 	@Column(name="device_model",nullable=false,length=20)
 	private String deviceModel;
@@ -20,11 +23,11 @@ public class Device {
 	@Column(name="deviceId")
 	private String deviceId;
 	
-	public long getUserDeviceId() {
-		return userDeviceId;
+	public long getUserDeviceDetailId() {
+		return userDeviceDetailId;
 	}
-	public void setUserDeviceId(long userDeviceId) {
-		this.userDeviceId = userDeviceId;
+	public void setUserDeviceDetailId(long userDeviceDetailId) {
+		this.userDeviceDetailId = userDeviceDetailId;
 	}
 	public String getDeviceModel() {
 		return deviceModel;
@@ -38,5 +41,13 @@ public class Device {
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
 	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	
+	
 	
 }

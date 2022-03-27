@@ -13,7 +13,10 @@ import javax.persistence.Table;
 public class Address {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private long userAddressid;
+	
+	@Column(name="userId")
+	private long userId;
 	
 	@Column(name="House")
 	private String houseNo;
@@ -33,12 +36,23 @@ public class Address {
 	@Column(name="PIN")
 	private int pincode;
 
-	public long getId() {
-		return id;
+	
+
+	public long getUserAddressid() {
+		return userAddressid;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserAddressid(long userAddressid) {
+		this.userAddressid = userAddressid;
+	}
+
+	
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getHouseNo() {
