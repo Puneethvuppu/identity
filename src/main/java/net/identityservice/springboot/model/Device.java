@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="userDeviceDetails")
+@Table(name="device")
 public class Device {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,7 +17,9 @@ public class Device {
 	@Column(name="device_model",nullable=false,length=20)
 	private String deviceModel;
 	
+	@Column(name="deviceId")
 	private String deviceId;
+	
 	public long getUserDeviceId() {
 		return userDeviceId;
 	}

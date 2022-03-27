@@ -1,30 +1,24 @@
 package net.identityservice.springboot.model;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
-
-
-
 @Entity
-@Table(name="employee")
-public class Employee {
+@Table(name="user")
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "first_name", nullable = false,length=10)
+	@Column(name = "first_name",length=10)
 	private String firstName;
 	
 	@Column(name = "last_name")
@@ -45,8 +39,6 @@ public class Employee {
 	@Column(name="dob")
 	@JsonFormat(pattern="yyyy/MM/dd")
     private LocalDateTime dob;
-	private String nmn;
-	
 	
 	
 
@@ -113,6 +105,5 @@ public class Employee {
 	public void setPan(String pan) {
 		this.pan = pan;
 	}
-
 	
 }
