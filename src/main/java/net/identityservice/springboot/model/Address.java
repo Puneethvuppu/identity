@@ -20,28 +20,11 @@ public class Address {
 	@Column(name="userId")
 	private long userId;
 	
-	@Column(name="House")
-	private String houseNo;
-	
-	@Column(name="Street")
-	private String streetName;
-	
-	@Column(name="City")
-	private String cityName;
-	
-	@Column(name="State")
-	private String stateName;
-	
-	@Column(name="Country")
-	private String countryName;
-	
-	@Column(name="PIN")
-	private int pincode;
+	@Column(name="addressDetails")
+	private String addressDetail;
 	
 	@Column(name="date_time_created")
 	private LocalDateTime created=LocalDateTime.now();
-
-
 	
 
 	public long getUserAddressid() {
@@ -52,7 +35,6 @@ public class Address {
 		this.userAddressid = userAddressid;
 	}
 
-	
 	public long getUserId() {
 		return userId;
 	}
@@ -61,54 +43,16 @@ public class Address {
 		this.userId = userId;
 	}
 
-	public String getHouseNo() {
-		return houseNo;
+	public String getAddressDetail() {
+		return addressDetail;
 	}
 
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
+	public void setAddressDetail(String addressDetails) {
+		this.addressDetail = addressDetails;
 	}
-
-	public String getStreetName() {
-		return streetName;
+	public boolean isEmpty()
+	{
+	   return this.getUserAddressid()==0;
 	}
-
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
-	}
-
-	public String getCityName() {
-		return cityName;
-	}
-
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-	}
-
-	public String getStateName() {
-		return stateName;
-	}
-
-	public void setStateName(String stateName) {
-		this.stateName = stateName;
-	}
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
-
-	public int getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(int pincode) {
-		this.pincode = pincode;
-	}
-	
-	
 	
 }

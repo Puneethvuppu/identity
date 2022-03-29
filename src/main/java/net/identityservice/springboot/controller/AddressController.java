@@ -25,12 +25,23 @@ private AddressService addressService;
 		this.addressService = addressService;
 	}
 	
-	@PostMapping()
+	/*@PostMapping()
 	public ResponseEntity<Address> saveAddress(@RequestBody Address address){
 	
 		return new ResponseEntity<Address>(addressService.saveAddress(address), HttpStatus.CREATED);
+	}*/
+	@PostMapping()
+	public ResponseEntity<Address> saveAddress(@RequestBody Address address){
+	   String addressDetail=address.getAddressDetail();
+	   boolean result=addressService.checkAddress(addressDetail);
+	   if(result)
+	   {
+		   addressService.saveAddress(address);
+	      return new ResponseEntity<Address>( HttpStatus.CREATED);
+//	      return re;
+	   }
+	   return new ResponseEntity<Address>(HttpStatus.OK);
 	}
-	
 	
 	/*@GetMapping()
 	public List<Address> getAllAddress(){

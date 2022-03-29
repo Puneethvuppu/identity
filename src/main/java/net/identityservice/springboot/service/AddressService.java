@@ -9,4 +9,5 @@ public interface AddressService {
 	Address getAddressById(long id);
 	Address updateAddress(Address address,long id);
 	void deleteAddress(long id);
+	boolean checkAddress(String addressDetail);
 }

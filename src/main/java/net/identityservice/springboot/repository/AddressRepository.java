@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import net.identityservice.springboot.model.Address;
 
 public interface AddressRepository extends JpaRepository<Address,Long>{
-
+	public Address findByAddressDetail(String addressDetail);
 }

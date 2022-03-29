@@ -49,6 +49,21 @@ public class AddressServiceImpl implements AddressService {
 addressRepository.deleteById(id);
 		
 	}
+	@Override
+	public boolean checkAddress(String addressDetail) {
+	   Address obj=null;
+	   obj=addressRepository.findByAddressDetail(addressDetail);
+	   boolean result;
+	   try
+	   {
+	      result=obj.isEmpty();
+	   }
+	   catch(Exception e)
+	   {
+	      return true;
+	   }
+	   return result;
+	}
 	
 
 }

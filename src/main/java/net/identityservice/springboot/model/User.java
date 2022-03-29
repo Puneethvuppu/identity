@@ -1,9 +1,8 @@
 package net.identityservice.springboot.model;
 
 import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,16 +41,33 @@ public class User {
 	@Column(name="dob")
 	@JsonFormat(pattern="yyyy/MM/dd")
     private LocalDate dob;
-	
-	
-	
-	
-	/*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
 
-	LocalDateTime now = LocalDateTime.now();
 	@Column(name="date_time_created")
-	String dateTimeString = now.format(formatter);*/
+	LocalDateTime now = LocalDateTime.now();
 	
+	
+	@Column(name="valid_data")
+	boolean validData=false;
+	
+	@Column(name="otp")
+	int OTP;
+	
+	public boolean isValidData() {
+		return validData;
+	}
+
+	public void setValidData(boolean validData) {
+		this.validData = validData;
+	}
+
+	public int getOTP() {
+		return OTP;
+	}
+
+	public void setOTP(int OTP) {
+		this.OTP = OTP;
+	}
+
 	public LocalDate getDob() {
 		return dob;
 	}

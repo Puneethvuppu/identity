@@ -32,8 +32,9 @@ private BankService bankService;
 		boolean result=bankService.checkAccountNumber(accountNumber);
 		if(result)
 		{
-			ResponseEntity re= new ResponseEntity<Bank>(bankService.saveBank(bank), HttpStatus.CREATED);
-			return re;
+			bankService.saveBank(bank);
+			return new ResponseEntity<Bank>(HttpStatus.CREATED);
+			
 		}
 		return new ResponseEntity<Bank>(HttpStatus.OK);
 	}

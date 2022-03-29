@@ -71,8 +71,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int generateOTP() {
 		Random random = new Random();
-		   int randomnext=random.nextInt();
-		   return randomnext;
+		   int randomnext=Math.abs(random.nextInt());
+		    int n=randomnext;
+		   return n;
 
 	}
 
@@ -81,5 +82,37 @@ public class UserServiceImpl implements UserService{
 		List<Long> userId=userRepository.findUserIdByMobile(mobile);
 		return userId;
 	}
+
+	@Override
+	public boolean validateOTP(int OTP, long uId) {
+		System.out.println("1, " + uId);
+		System.out.println("2, " + OTP);
+		User user=getUserById(uId);
+		int generatedOTP=user.getOTP();
+		System.out.println("generatedOTP, " + generatedOTP);
+		if(generatedOTP==OTP)
+		{
+			System.out.println(true);
+			user.setValidData(true);
+			return true;
+		}
+		System.out.println(false);
+		return false;
+	}
+	
+	
+
+//	@Override
+//	public boolean validateOTP(int otp,int userotp,User user) {
+//		if(userotp==otp) {
+//			
+//			user.setValidData(true);
+//			return true;
+//		}
+//		else {
+//			return  false;
+//		}
+//		
+//	}
 	
 }

@@ -1,4 +1,5 @@
 package net.identityservice.springboot.controller;
+import java.lang.annotation.Repeatable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -22,13 +23,13 @@ import org.springframework.web.client.RestTemplate;
 import net.identityservice.springboot.model.ApiResponseCheckUser;
 import net.identityservice.springboot.model.Device;
 import net.identityservice.springboot.model.RequestEntityCheckUser;
+import net.identityservice.springboot.model.RequestEntityEnterOTP;
 import net.identityservice.springboot.model.User;
 import net.identityservice.springboot.service.UserService;
-
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-	
+//	int generatedOTP=0;
 	private UserService userService;
 	@Autowired
 	public UserController(UserService userService) {
@@ -38,26 +39,62 @@ public class UserController {
 
 	// build create employee REST API
 	@PostMapping()
-	public ResponseEntity<User> saveUser(@RequestBody User user){
-		int otp=userService.generateOTP();
+	public ApiResponseCheckUser saveUser(@RequestBody User user){
 		
-		System.out.println(otp);
+		
+		int generatedOTP=userService.generateOTP();
+		user.setOTP(generatedOTP);
 		userService.saveUser(user);
+		long uId=user.getId();
+		// call CS/sendSMS
+		System.out.println(generatedOTP);
+		return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "OTP sent.");
+		/*userService.saveUser(user);
 		System.out.println(user.getId());
 		//call C.S. /sendOTP with otp, mob.....
 		System. out. println("Please enter a OTP: ");
 		Scanner in=new Scanner(System.in);
 		
+		String mob=user.getMobile();
+		
 		int x=in. nextInt();
-		in.close();
+		userService.validateOTP(x,,user);
+		in.close();*/
+		/*user.getAadhar();
+		user.getDob();
+		user.getEmail();
+		user.getFirstName();
+		user.getLastName();user.getMobile();user.getPan();*/
+		
+		//if(user.isValidData())
+			//return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.CREATED);
 		
 		
-		if(otp==x)
-			return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.CREATED);
-		return new ResponseEntity<User>(userService.saveUser(user),HttpStatus.NOT_FOUND);	
+		//return new ResponseEntity<User>(HttpStatus.NOT_FOUND);	
 		
 	}
-
+	
+	@RequestMapping(value = "/enterOTP", method = RequestMethod.POST)
+	public ApiResponseCheckUser enterOTP(@RequestBody RequestEntityEnterOTP requestEntityEnterOTP) {
+		long uId=requestEntityEnterOTP.getUserId();
+		System.out.println("1, " + uId);
+		int OTP=requestEntityEnterOTP.getOTP();
+		System.out.println("2, " + OTP);
+//		System.out.println(userotp);
+		//generatedOTP=userService.generateOTP();
+//		user.setOTP(generatedOTP);
+		boolean isValid=userService.validateOTP(OTP, uId);
+		if(isValid) {
+			return new ApiResponseCheckUser(uId, HttpStatus.CREATED.value(), "Correct OTP! Account validated!");
+		}
+		else {
+			//enterOTP(user);
+			return new ApiResponseCheckUser(uId, HttpStatus.NOT_FOUND.value(), "Incorrect OTP! Re-enter OTP & UserId.");
+			
+		}
+		
+	}
+	
 	@RequestMapping(value = "/checkUserExists", method = RequestMethod.POST)
 	
 	public ApiResponseCheckUser checkUserExists(@RequestBody RequestEntityCheckUser requestEntityCheckUser)
@@ -67,7 +104,7 @@ public class UserController {
 	   String deviceId=requestEntityCheckUser.getDeviceId();
 	   List<Long> userId=userService.getUserIdByMobile(mobile);
 	   if(userId.isEmpty())
-	      return new ApiResponseCheckUser((long)-1, HttpStatus.NOT_FOUND.value(), "No user found by this mobile number.");
+	      return new ApiResponseCheckUser((long)-1, HttpStatus.NOT_FOUND.value(), "No user found by this mobile number. Create account.");
 	   
 	   long uId=userId.get(0);
 	   Device device=new Device();
@@ -80,7 +117,7 @@ public class UserController {
 	   System.out.println(isResponse);
 	   
 		
-	   return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "New device found & added.");
+   return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "User exists. New device found & added.");
 	}
 	
 	// build get all employees REST API
