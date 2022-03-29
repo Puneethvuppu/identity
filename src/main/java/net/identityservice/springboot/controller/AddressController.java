@@ -32,7 +32,7 @@ private AddressService addressService;
 	}
 	
 	
-	@GetMapping()
+	/*@GetMapping()
 	public List<Address> getAllAddress(){
 		return addressService.getAllAddress();
 	}
@@ -57,5 +57,5 @@ private AddressService addressService;
 		addressService.deleteAddress(id);
 		
 		return new ResponseEntity<String>("Address deleted successfully!.", HttpStatus.OK);
-	}
+	}*/
 }

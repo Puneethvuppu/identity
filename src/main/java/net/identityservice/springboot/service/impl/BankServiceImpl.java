@@ -3,6 +3,7 @@ package net.identityservice.springboot.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
 import net.identityservice.springboot.exception.ResourceNotFoundException;
 import net.identityservice.springboot.model.Bank;
 import net.identityservice.springboot.repository.BankRepository;
@@ -53,6 +54,22 @@ public class BankServiceImpl implements BankService{
 		new ResourceNotFoundException("AccountNo", "Id", id));
 bankrepository.deleteById(id);
 		
+	}
+
+	@Override
+	public boolean checkAccountNumber(String bankAccountNumber) {
+		Bank obj=null;
+		obj=bankrepository.findByBankAccountNumber(bankAccountNumber);
+		boolean result;
+		try
+		{
+			result=obj.isEmpty();
+		}
+		catch(Exception e)
+		{
+			return true;
+		}
+		return result;
 	}
 
 }

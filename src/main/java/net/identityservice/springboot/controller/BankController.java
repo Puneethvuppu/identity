@@ -26,9 +26,16 @@ private BankService bankService;
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Bank> saveBank(@RequestBody Bank acountNo){
-	
-		return new ResponseEntity<Bank>(bankService.saveBank(acountNo), HttpStatus.CREATED);
+	public ResponseEntity<Bank> saveBank(@RequestBody Bank bank){
+		// function call to check acc num exists?
+		String accountNumber=bank.getBankAccountNumber();
+		boolean result=bankService.checkAccountNumber(accountNumber);
+		if(result)
+		{
+			ResponseEntity re= new ResponseEntity<Bank>(bankService.saveBank(bank), HttpStatus.CREATED);
+			return re;
+		}
+		return new ResponseEntity<Bank>(HttpStatus.OK);
 	}
 	
 	
@@ -36,6 +43,8 @@ private BankService bankService;
 	public List<Bank> getAllBank(){
 		return bankService.getAllBank();
 	}
+	
+	// public ResponseEntity<Bank> getBankByAccount(@PathVariable("accountNumber") String bankAccountNumber)
 	
 	@GetMapping("{id}")
 	public ResponseEntity<Bank> getUserById(@PathVariable("id") long bankId){

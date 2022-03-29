@@ -36,8 +36,8 @@ private DeviceService userdeviceService;
 		return userdeviceService.getAllDetails();
 	}
 	@GetMapping("{id}")
-	public ResponseEntity<Device> getDeviceById(@PathVariable("id") long employeeId){
-		return new ResponseEntity<Device>(userdeviceService.getDeviceById(employeeId), HttpStatus.OK);
+	public ResponseEntity<Device> getDeviceById(@PathVariable("id") long Id){
+		return new ResponseEntity<Device>(userdeviceService.getDeviceById(Id), HttpStatus.OK);
 	}
 	
 	@PutMapping("{id}")

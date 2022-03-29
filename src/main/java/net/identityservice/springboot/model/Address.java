@@ -1,5 +1,7 @@
 package net.identityservice.springboot.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,6 +37,10 @@ public class Address {
 	
 	@Column(name="PIN")
 	private int pincode;
+	
+	@Column(name="date_time_created")
+	private LocalDateTime created=LocalDateTime.now();
+
 
 	
 

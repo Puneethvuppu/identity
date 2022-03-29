@@ -1,5 +1,7 @@
 package net.identityservice.springboot.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,11 @@ public class Bank {
 	@Column(name="userId")
 	private long userId;
 	
-	@Column(name="Account_No")
-	private long bankAccountNumber;
+	@Column(name="account_No")
+	private String bankAccountNumber;
+	
+	@Column(name="date_time_created")
+	private LocalDateTime created=LocalDateTime.now();
 
 	public long getUserAccountId() {
 		return userAccountId;
@@ -27,7 +32,6 @@ public class Bank {
 		this.userAccountId = userAccountId;
 	}
 
-
 	public long getUserId() {
 		return userId;
 	}
@@ -36,14 +40,18 @@ public class Bank {
 		this.userId = userId;
 	}
 
-	public long getBankAccountNumber() {
+	public String getBankAccountNumber() {
 		return bankAccountNumber;
 	}
 
-	public void setBankAccountNumber(long bankAccountNumber) {
+	public void setBankAccountNumber(String bankAccountNumber) {
 		this.bankAccountNumber = bankAccountNumber;
 	}
 
-	
+	public boolean isEmpty()
+	{
+		return this.getUserAccountId()==0; 
+//				&& this.getBankAccountNumber()==null && this.getUserId()==0); 
+	}
 	
 }

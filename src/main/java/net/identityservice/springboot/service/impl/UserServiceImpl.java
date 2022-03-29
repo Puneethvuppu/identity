@@ -1,12 +1,15 @@
 package net.identityservice.springboot.service.impl;
 import java.util.List;
+import java.util.Random;
+
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import net.identityservice.springboot.exception.ResourceNotFoundException;
 import net.identityservice.springboot.model.User;
 import net.identityservice.springboot.repository.UserRepository;
 import net.identityservice.springboot.service.UserService;
-
+@Component
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -39,7 +42,8 @@ public class UserServiceImpl implements UserService{
 						new ResourceNotFoundException("User", "Id", id));
 		
 	}
-
+	
+	
 	@Override
 	public User updateUser(User user, long id) {
 		
@@ -62,6 +66,20 @@ public class UserServiceImpl implements UserService{
 		userRepository.findById(id).orElseThrow(() -> 
 								new ResourceNotFoundException("User", "Id", id));
 		userRepository.deleteById(id);
+	}
+
+	@Override
+	public int generateOTP() {
+		Random random = new Random();
+		   int randomnext=random.nextInt();
+		   return randomnext;
+
+	}
+
+	@Override
+	public List<Long> getUserIdByMobile(String mobile) {
+		List<Long> userId=userRepository.findUserIdByMobile(mobile);
+		return userId;
 	}
 	
 }

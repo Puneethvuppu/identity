@@ -1,6 +1,9 @@
 package net.identityservice.springboot.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+//import java.time.LocalDateTime;
+//import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +19,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long userId;
+	private long id;
 	
 	@Column(name = "first_name",length=10)
 	private String firstName;
@@ -34,19 +37,26 @@ public class User {
 	private String aadhar;
 	
 	@Column(name="mobile_no")
-	private int mobile;
+	private String mobile;
 	
 	@Column(name="dob")
 	@JsonFormat(pattern="yyyy/MM/dd")
-    private LocalDateTime dob;
+    private LocalDate dob;
 	
 	
+	
+	
+	/*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
 
-	public LocalDateTime getDob() {
+	LocalDateTime now = LocalDateTime.now();
+	@Column(name="date_time_created")
+	String dateTimeString = now.format(formatter);*/
+	
+	public LocalDate getDob() {
 		return dob;
 	}
 
-	public void setDob(LocalDateTime dob) {
+	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
 
@@ -58,20 +68,20 @@ public class User {
 		this.aadhar = aadhar;
 	}
 
-	public int getMobile() {
+	public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(int mobile) {
+	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
 
-	public long getUserId() {
-		return userId;
+	public long getId() {
+		return id;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -105,7 +115,6 @@ public class User {
 	public void setPan(String pan) {
 		this.pan = pan;
 	}
-
 	
 	
 }
