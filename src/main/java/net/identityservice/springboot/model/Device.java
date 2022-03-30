@@ -1,5 +1,7 @@
 package net.identityservice.springboot.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,9 @@ public class Device {
 	
 	@Column(name="deviceId")
 	private String deviceId;
+	
+	@Column(name="date_time_created")
+	LocalDateTime now = LocalDateTime.now();
 	
 	public long getUserDeviceDetailId() {
 		return userDeviceDetailId;

@@ -1,25 +1,18 @@
 package net.identityservice.springboot.model;
 
 public class ResponseComm {
-	private String name;
-	private String mobile;
-	private String emailId;
-	public String getName() {
-		return name;
+	private boolean status;
+	public ResponseComm() {
+		super();
 	}
-	public void setName(String name) {
-		this.name = name;
+	public ResponseComm(boolean status) {
+		super();
+		this.status=status;
 	}
-	public String getMobile() {
-		return mobile;
+	public boolean isStatus() {
+		return status;
 	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 }
