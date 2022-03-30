@@ -25,6 +25,7 @@ import net.identityservice.springboot.model.ApiResponseCheckUser;
 import net.identityservice.springboot.model.Device;
 import net.identityservice.springboot.model.RequestEntityCheckUser;
 import net.identityservice.springboot.model.RequestEntityEnterOTP;
+import net.identityservice.springboot.model.ResponseComm;
 import net.identityservice.springboot.model.User;
 import net.identityservice.springboot.service.UserService;
 @RestController
@@ -81,9 +82,6 @@ public class UserController {
 		System.out.println("1, " + uId);
 		int OTP=requestEntityEnterOTP.getOTP();
 		System.out.println("2, " + OTP);
-//		System.out.println(userotp);
-		//generatedOTP=userService.generateOTP();
-//		user.setOTP(generatedOTP);
 		boolean isValid=userService.validateOTP(OTP, uId);
 		if(isValid) {
 			return new ApiResponseCheckUser(uId, HttpStatus.CREATED.value(), "Correct OTP! Account validated!");
@@ -116,9 +114,7 @@ public class UserController {
 	   RestTemplate restTemplate = new RestTemplate();
 	   String isResponse = restTemplate.postForObject(uri,device,String.class);
 	   System.out.println(isResponse);
-	   
-		
-   return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "User exists. New device found & added.");
+	   return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "User exists. New device found & added.");
 	}
 	
 	// build get all employees REST API
@@ -126,43 +122,47 @@ public class UserController {
 	public List<User> getAllUser(){
 		return userService.getAllUser();
 	}
-	
-	// build get employee by id REST API
-	// http://localhost:8080/api/employees/1
-	/*@GetMapping("{id}")
-	public ResponseEntity<User> getUserById(@PathVariable("id") long userId){
-		return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
-	}*/
+
 	
 	@GetMapping("{id}")
-	public ResponseEntity<Object> getUserById(@PathVariable("id") long userId,@RequestParam(value="serve",required=true) String serv)
+	public ResponseEntity<Object> getUserById(@PathVariable("id") long userId,@RequestParam(value="serviceId",required=true) String serv)
 			 {
 		System.out.println(serv);
-		System.out.println(userService.getUserById(userId));
+//		System.out.println(userService.getUserById(userId));
 		User user = userService.getUserById(userId);
-		System.out.println(user);
-		Map<String,String> mv = new HashMap<String,String>();
-		mv.put("mobile", user.getMobile());
-		mv.put("email", user.getEmail());
-		if (serv.equals("cs")) {
-			return new ResponseEntity<Object>(mv, HttpStatus.OK);
+		if(!user.isValidData())
+		{
+			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
-		else {
-			
-		User obj = userService.getUserById(userId);
-		ResponseLos ros = new ResponseLos();
+		System.out.println(user);
 		
-		ros.setUserId(obj.getId());
-		ros.setFname(obj.getFirstName());
-		ros.setAdhaar(obj.getAadhar());
-		ros.setDob(obj.getDob());
-		ros.setLname(obj.getLastName());
-		ros.setEmail(obj.getAadhar());
-		ros.setMobile(obj.getMobile());
-		ros.setPan(obj.getPan());
-		return new ResponseEntity<Object>(ros,HttpStatus.OK);
-	
-	}
+		ResponseComm rcomm=new ResponseComm();
+		String name=user.getFirstName()+" "+user.getLastName();
+		rcomm.setName(name);
+		rcomm.setMobile(user.getMobile());
+		rcomm.setEmailId(user.getEmail());
+		if (serv.equals("cs")) {
+			return new ResponseEntity<Object>(rcomm, HttpStatus.OK);
+		}
+		else if (serv.equals("los")){
+			
+			User obj = userService.getUserById(userId);
+			ResponseLos ros = new ResponseLos();
+			
+			ros.setUserId(obj.getId());
+			ros.setFname(obj.getFirstName());
+			ros.setAdhaar(obj.getAadhar());
+			ros.setDob(obj.getDob());
+			ros.setLname(obj.getLastName());
+			ros.setEmail(obj.getAadhar());
+			ros.setMobile(obj.getMobile());
+			ros.setPan(obj.getPan());
+			return new ResponseEntity<Object>(ros,HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	// build update employee REST API
@@ -170,6 +170,7 @@ public class UserController {
 	@PutMapping("{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") long id
 												  ,@RequestBody User user){
+//		User existinguser=
 		return new ResponseEntity<User>(userService.updateUser(user, id), HttpStatus.OK);
 	}
 	

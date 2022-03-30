@@ -1,19 +1,19 @@
 package net.identityservice.springboot.model;
 
 public class ApiResponseCheckUser {
-	private long userID;
+	private long userId;
     private int status;
     private String message;
     public ApiResponseCheckUser(long i,int v,String s) {
-    	setUserID(i);
+    	setUserId(i);
     	setStatus(v);
     	setMessage(s);
     }
-	public long getUserID() {
-		return userID;
+	public long getUserId() {
+		return userId;
 	}
-	public void setUserID(long userID) {
-		this.userID = userID;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	public int getStatus() {
 		return status;

@@ -3,6 +3,13 @@ package net.identityservice.springboot.model;
 public class RequestEntityEnterOTP {
 	long userId;
 	int OTP;
+	
+	public RequestEntityEnterOTP(long userId, int OTP)
+	{
+		setUserId(userId);
+		setOTP(OTP);
+	}
+	
 	public long getUserId() {
 		return userId;
 	}
@@ -12,8 +19,8 @@ public class RequestEntityEnterOTP {
 	public int getOTP() {
 		return OTP;
 	}
-	public void setOTP(int oTP) {
-		OTP = oTP;
+	public void setOTP(int OTP) {
+		this.OTP = OTP;
 	}
 	
 }

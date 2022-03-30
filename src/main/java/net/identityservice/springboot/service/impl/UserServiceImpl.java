@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService{
 		if(generatedOTP==OTP)
 		{
 			System.out.println(true);
-			user.setValidData(true);
+			userRepository.setValidDataById(uId);
 			return true;
 		}
 		System.out.println(false);
