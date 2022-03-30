@@ -71,9 +71,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int generateOTP() {
 		Random random = new Random();
-		   int randomnext=Math.abs(random.nextInt());
-		    int n=randomnext;
-		   return n;
+		  /* int randomnext=Math.abs(random.nextInt());
+		    int n=randomnext;*/
+		int num = random.nextInt(900000) + 100000;
+		   return num;
 
 	}
 

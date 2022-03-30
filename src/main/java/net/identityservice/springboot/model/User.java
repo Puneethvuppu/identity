@@ -2,7 +2,7 @@ package net.identityservice.springboot.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,56 +41,15 @@ public class User {
 	@Column(name="dob")
 	@JsonFormat(pattern="yyyy/MM/dd")
     private LocalDate dob;
-
-	@Column(name="date_time_created")
-	LocalDateTime now = LocalDateTime.now();
-	
 	
 	@Column(name="valid_data")
 	boolean validData=false;
 	
 	@Column(name="otp")
-	int OTP;
-	
-	public boolean isValidData() {
-		return validData;
-	}
+	private int OTP;
 
-	public void setValidData(boolean validData) {
-		this.validData = validData;
-	}
-
-	public int getOTP() {
-		return OTP;
-	}
-
-	public void setOTP(int OTP) {
-		this.OTP = OTP;
-	}
-
-	public LocalDate getDob() {
-		return dob;
-	}
-
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-
-	public String getAadhar() {
-		return aadhar;
-	}
-
-	public void setAadhar(String aadhar) {
-		this.aadhar = aadhar;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+	@Column(name="date_time_created")
+	LocalDateTime now = LocalDateTime.now();
 
 	public long getId() {
 		return id;
@@ -131,6 +90,45 @@ public class User {
 	public void setPan(String pan) {
 		this.pan = pan;
 	}
-	
+
+	public String getAadhar() {
+		return aadhar;
+	}
+
+	public void setAadhar(String aadhar) {
+		this.aadhar = aadhar;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+	public boolean isValidData() {
+		return validData;
+	}
+
+	public void setValidData(boolean validData) {
+		this.validData = validData;
+	}
+
+	public int getOTP() {
+		return OTP;
+	}
+
+	public void setOTP(int oTP) {
+		OTP = oTP;
+	}
 	
 }

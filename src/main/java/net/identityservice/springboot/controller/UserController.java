@@ -1,13 +1,14 @@
 package net.identityservice.springboot.controller;
-import java.lang.annotation.Repeatable;
+
+
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import net.identityservice.springboot.model.ResponseLos;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -128,11 +129,41 @@ public class UserController {
 	
 	// build get employee by id REST API
 	// http://localhost:8080/api/employees/1
-	@GetMapping("{id}")
+	/*@GetMapping("{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") long userId){
 		return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
-	}
+	}*/
 	
+	@GetMapping("{id}")
+	public ResponseEntity<Object> getUserById(@PathVariable("id") long userId,@RequestParam(value="serve",required=true) String serv)
+			 {
+		System.out.println(serv);
+		System.out.println(userService.getUserById(userId));
+		User user = userService.getUserById(userId);
+		System.out.println(user);
+		Map<String,String> mv = new HashMap<String,String>();
+		mv.put("mobile", user.getMobile());
+		mv.put("email", user.getEmail());
+		if (serv.equals("cs")) {
+			return new ResponseEntity<Object>(mv, HttpStatus.OK);
+		}
+		else {
+			
+		User obj = userService.getUserById(userId);
+		ResponseLos ros = new ResponseLos();
+		
+		ros.setUserId(obj.getId());
+		ros.setFname(obj.getFirstName());
+		ros.setAdhaar(obj.getAadhar());
+		ros.setDob(obj.getDob());
+		ros.setLname(obj.getLastName());
+		ros.setEmail(obj.getAadhar());
+		ros.setMobile(obj.getMobile());
+		ros.setPan(obj.getPan());
+		return new ResponseEntity<Object>(ros,HttpStatus.OK);
+	
+	}
+	}
 	
 	// build update employee REST API
 	// http://localhost:8080/api/employees/1
