@@ -12,9 +12,6 @@ public interface UserService {
 	User updateUser(User user, long id);
 	void deleteUser(long id);
 	int generateOTP();
-
-	//long getUserIdByMobile(int mobileNumber);
-	
 	List<Long> getUserIdByMobile(String mobile);
-	boolean validateOTP(int OTP, long uId);
+	String validateOTP(int OTP, long uId);
 }

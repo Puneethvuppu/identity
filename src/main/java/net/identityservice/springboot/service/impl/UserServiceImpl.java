@@ -32,12 +32,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserById(long id) {
-//		Optional<Employee> employee = employeeRepository.findById(id);
-//		if(employee.isPresent()) {
-//			return employee.get();
-//		}else {
-//			throw new ResourceNotFoundException("Employee", "Id", id);
-//		}
 		return userRepository.findById(id).orElseThrow(() -> 
 						new ResourceNotFoundException("User", "Id", id));
 		
@@ -46,8 +40,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User updateUser(User user, long id) {
-		
-		// we need to check whether employee with given id is exist in DB or not
+
 		User existingUser = userRepository.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException("User", "Id", id)); 
 		
@@ -71,8 +64,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int generateOTP() {
 		Random random = new Random();
-		  /* int randomnext=Math.abs(random.nextInt());
-		    int n=randomnext;*/
 		int num = random.nextInt(900000) + 100000;
 		   return num;
 
@@ -85,35 +76,22 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean validateOTP(int OTP, long uId) {
-		System.out.println("1, " + uId);
-		System.out.println("2, " + OTP);
-		User user=getUserById(uId);
-		int generatedOTP=user.getOTP();
-		System.out.println("generatedOTP, " + generatedOTP);
-		if(generatedOTP==OTP)
-		{
-			System.out.println(true);
-			userRepository.setValidDataById(uId);
-			return true;
+	public String validateOTP(int OTP, long uId) {
+		try{
+			User user=getUserById(uId);
+			int generatedOTP=user.getOTP();
+			if(generatedOTP==OTP)
+			{
+				userRepository.setValidDataById(uId);
+				return "true";
+			}
+			else{
+				return "false";
+			}
 		}
-		System.out.println(false);
-		return false;
-	}
-	
-	
+		catch(Exception e){
+			return "User Not Found";
+		}
 
-//	@Override
-//	public boolean validateOTP(int otp,int userotp,User user) {
-//		if(userotp==otp) {
-//			
-//			user.setValidData(true);
-//			return true;
-//		}
-//		else {
-//			return  false;
-//		}
-//		
-//	}
-	
+	}
 }

@@ -1,17 +1,15 @@
 package net.identityservice.springboot.model;
-
 import java.time.LocalDate;
-
 public class ResponseLos {
 	private long userId;
 	private String fname;
 	private String lname;
 	private String pan;
 	private String email;
-	
 	private String mobile;
 	private String adhaar;
 	private LocalDate dob;
+
 	public long getUserId() {
 		return userId;
 	}
@@ -60,5 +58,4 @@ public class ResponseLos {
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
-	
 }

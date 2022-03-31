@@ -1,5 +1,4 @@
 package net.identityservice.springboot.model;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -13,42 +12,41 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
-@Table(name="user")
+@Table(name="user_detail")
 public class User {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "first_name",length=10)
+	@Column(name = "first_name",nullable = false,length=50)
 	private String firstName;
 	
-	@Column(name = "last_name")
+	@Column(name = "last_name",nullable = false,length=50)
 	private String lastName;
 	
-	@Column(name = "email")
+	@Column(name = "email",nullable = false,length=150)
 	private String email;
 	
-	@Column(name = "pan")
+	@Column(name = "pan",nullable = false,length=10)
 	private String pan;
 	
-	@Column(name="aadhar")
+	@Column(name="aadhar",nullable = false,length=12)
 	private String aadhar;
 	
-	@Column(name="mobile_no")
+	@Column(name="mobile_no",nullable = false,length=10)
 	private String mobile;
 	
-	@Column(name="dob")
+	@Column(name="dob",nullable = false)
 	@JsonFormat(pattern="yyyy/MM/dd")
     private LocalDate dob;
 	
-	@Column(name="valid_data")
+	@Column(name="valid_data",nullable = false)
 	boolean validData=false;
 	
 	@Column(name="otp")
 	private int OTP;
 
-	@Column(name="date_time_created")
+	@Column(name="date_time_created",nullable = false)
 	LocalDateTime now = LocalDateTime.now();
 
 	public long getId() {

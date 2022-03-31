@@ -48,10 +48,7 @@ private DeviceService userdeviceService;
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable("id") long id){
-		
-		
 		userdeviceService.deleteDevice(id);
-		
 		return new ResponseEntity<String>("Device Details deleted successfully!.", HttpStatus.OK);
 	}
 }

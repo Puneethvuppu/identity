@@ -1,5 +1,4 @@
 package net.identityservice.springboot.model;
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -10,29 +9,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="device")
+@Table(name="device_detail")
 public class Device {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long userDeviceDetailId;
+	private long id;
 	
 	@Column(name="userId")
 	private long userId;
 	
-	@Column(name="device_model",nullable=false,length=20)
+	@Column(name="device_model",nullable=false,length=50)
 	private String deviceModel;
 	
-	@Column(name="deviceId")
+	@Column(name="deviceId",nullable=false,length=50)
 	private String deviceId;
 	
-	@Column(name="date_time_created")
+	@Column(name="date_time_created",nullable=false)
 	LocalDateTime now = LocalDateTime.now();
 	
-	public long getUserDeviceDetailId() {
-		return userDeviceDetailId;
+	public long getId() {
+		return id;
 	}
-	public void setUserDeviceDetailId(long userDeviceDetailId) {
-		this.userDeviceDetailId = userDeviceDetailId;
+	public void setId(long id) {
+		this.id = id;
 	}
 	public String getDeviceModel() {
 		return deviceModel;
@@ -52,7 +51,4 @@ public class Device {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
-	
-	
-	
 }

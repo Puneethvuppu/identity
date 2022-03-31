@@ -4,6 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.identityservice.springboot.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,36 +36,31 @@ import net.identityservice.springboot.service.UserService;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-//	int generatedOTP=0;
+
+	// creating an object of userService class
 	private UserService userService;
 	@Autowired
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
-
+   // API call to store address and bank details by userId from LOS - POST
 	@RequestMapping(value = "/postBankAndAddress", method = RequestMethod.POST)
 	public ApiResponseCheckUser saveBankAndAddress(@RequestBody RequestLos rlos)
 	{
-		long userId=rlos.getUserId();
-		
-		//Bank Detail Save
+		long userId=rlos.getUserId();  // getting userID from LOS
 		String bankAccountNumber=rlos.getBankAccountNumber();
-		Bank bank=new Bank();
+		Bank bank=new Bank();  		   // creating a bank object
 		bank.setUserId(userId);
 		bank.setBankAccountNumber(bankAccountNumber);
-		// api call
-		final String uri1 = "http://localhost:8080/api/bank";
+		final String uri1 = "http://172.31.33.44:8080/api/bank"; // internal API call to store bankAccountNumber
 		RestTemplate restTemplate = new RestTemplate();
 		String isResponse = restTemplate.postForObject(uri1,bank,String.class);
-		
-		//Address Detail Save
 		String addressDetail=rlos.getAddress();
 		Address address=new Address();
 		address.setUserId(userId);
 		address.setAddressDetail(addressDetail);
-		// api call
-		final String uri2 = "http://localhost:8080/api/address";
+		final String uri2 = "http://172.31.33.44:8080/api/address";
 		restTemplate = new RestTemplate();
 		isResponse = restTemplate.postForObject(uri2,address,String.class);
 		
@@ -74,19 +71,22 @@ public class UserController {
 	@PostMapping()
 	public ApiResponseCheckUser saveUser(@RequestBody User user){
 		int generatedOTP=userService.generateOTP();
+		System.out.println(generatedOTP);
 		user.setOTP(generatedOTP);
 		userService.saveUser(user);
 		long uId=user.getId();
 		HashMap<String,String> temp=new HashMap<String, String>();
-		temp.put("userId", ""+user.getId());
-		temp.put("otp", ""+generatedOTP);
+		temp.put("userId",Long.toString(user.getId()));
+		temp.put("otp", Integer.toString(generatedOTP));
 		temp.put("mobileNumber", user.getMobile());
-		final String uri1 = "http://10.70.4.178:8180/sendSMS";
+
+		final String uri1 = "http://172.31.15.239:8080/sendSMS";
 		RestTemplate restTemplate = new RestTemplate();
 		RequestComm request=new RequestComm();
 		request.setDetails(temp);
-//		String isResponse = restTemplate.postForObject(uri1,request,String.class);
 		ResponseComm isResponse = restTemplate.postForObject(uri1,request,ResponseComm.class);
+		System.out.println("Response collected");
+
 		if(isResponse.isStatus())
 			return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "OTP sent.");
 		return new ApiResponseCheckUser(uId, HttpStatus.BAD_REQUEST.value(), "OTP not sent.");
@@ -97,13 +97,16 @@ public class UserController {
 	public ApiResponseCheckUser enterOTP(@RequestBody RequestEntityEnterOTP requestEntityEnterOTP) {
 		long uId=requestEntityEnterOTP.getUserId();
 		int OTP=requestEntityEnterOTP.getOTP();
-		boolean isValid=userService.validateOTP(OTP, uId);
-		if(isValid) {
+		String isValid=userService.validateOTP(OTP, uId);
+		if(isValid=="true") {
 			return new ApiResponseCheckUser(uId, HttpStatus.CREATED.value(), "Correct OTP! Account validated!");
 		}
-		else {
+		else if(isValid=="false"){
 			return new ApiResponseCheckUser(uId, HttpStatus.NOT_FOUND.value(), "Incorrect OTP! Re-enter OTP & UserId.");
 			
+		}
+		else{
+			return new ApiResponseCheckUser(uId, HttpStatus.NOT_FOUND.value(), "Invalid UserId! ");
 		}
 		
 	}
@@ -124,20 +127,18 @@ public class UserController {
 	   device.setDeviceModel(deviceModel);
 	   device.setDeviceId(deviceId);
 	   // api call
-	   final String uri = "http://localhost:8080/api/device";
+	   final String uri = "http://172.31.33.44:8080/api/device";
 	   RestTemplate restTemplate = new RestTemplate();
 	   String isResponse = restTemplate.postForObject(uri,device,String.class);
 	   System.out.println(isResponse);
 	   return new ApiResponseCheckUser(uId, HttpStatus.OK.value(), "User exists. New device found & added.");
 	}
 	
-	
-	// build get all employees REST API
+
 	@GetMapping()
 	public List<User> getAllUser(){
 		return userService.getAllUser();
 	}
-
 	
 	@GetMapping("{id}")
 	public HashMap<String, String> getUserById(@PathVariable("id") long userId,@RequestParam(value="serviceId",required=true) String serv)
@@ -145,17 +146,14 @@ public class UserController {
 		System.out.println(serv);
 		System.out.println(userId);
 		User user = userService.getUserById(userId);
-		System.out.println(user.getAadhar());
-		System.out.println(user);
+		//System.out.println(user);
 		String name=user.getFirstName()+" "+user.getLastName();
 		HashMap<String,String> temp=new HashMap<String, String>();
 		
-		
 		if (serv.equals("cs")) {
 			temp.put("name", user.getFirstName()+" "+user.getLastName());
-			
 			temp.put("mobileNumber", user.getMobile());
-			temp.put("emailID", user.getEmail());
+			temp.put("emailId", user.getEmail());
 		}
 		else if (serv.equals("los")){
 			User obj = userService.getUserById(userId);
@@ -168,6 +166,7 @@ public class UserController {
 			temp.put("adhaar", obj.getAadhar());
 			temp.put("email", obj.getEmail());
 			temp.put("mobile", obj.getMobile());
+			temp.put("statusCode", ""+HttpStatus.OK.value());
 		}
 		else
 		{
@@ -175,24 +174,17 @@ public class UserController {
 		}
 		return temp;
 	}
-	
-	// build update employee REST API
-	// http://localhost:8080/api/employees/1
+
 	@PutMapping("{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") long id
 												  ,@RequestBody User user){
 
 		return new ResponseEntity<User>(userService.updateUser(user, id), HttpStatus.OK);
 	}
-	
-	// build delete employee REST API
-	// http://localhost:8080/api/employees/1
+
 	@DeleteMapping("{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable("id") long id){
-		
-		// delete employee from DB
 		userService.deleteUser(id);
-		
 		return new ResponseEntity<String>("User deleted successfully!.", HttpStatus.OK);
 	}
 	

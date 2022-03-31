@@ -1,9 +1,6 @@
 package net.identityservice.springboot.model;
-
 import java.util.HashMap;
-
 public class RequestComm {
-
     private String requestType="SUOTP";
     private HashMap<String,String> details;
 
