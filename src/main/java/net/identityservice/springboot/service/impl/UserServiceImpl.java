@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService{
 		existingUser.setFirstName(user.getFirstName());
 		existingUser.setLastName(user.getLastName());
 		existingUser.setEmail(user.getEmail());
-		// save existing employee to DB
+		// save existing user to DB
 		userRepository.save(existingUser);
 		return existingUser;
 	}
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void deleteUser(long id) {
 		
-		// check whether a employee exist in a DB or not
+		// check whether a user exist in a DB or not
 		userRepository.findById(id).orElseThrow(() -> 
 								new ResourceNotFoundException("User", "Id", id));
 		userRepository.deleteById(id);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService{
 	public int generateOTP() {
 		Random random = new Random();
 		int num = random.nextInt(900000) + 100000;
-		   return num;
+		return num;
 
 	}
 

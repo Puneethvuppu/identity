@@ -25,6 +25,7 @@ private AddressService addressService;
 	   if(result)
 	   {
 		   addressService.saveAddress(address);
+		   System.out.println("New Address created and added Success!!");
 	      return new ResponseEntity<Address>( HttpStatus.CREATED);
 	   }
 	   return new ResponseEntity<Address>(HttpStatus.OK);

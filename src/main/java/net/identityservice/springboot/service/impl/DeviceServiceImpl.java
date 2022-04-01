@@ -53,8 +53,4 @@ deviceRepository.deleteById(id);
 		
 	}
 
-	
-
-	
-	
 }

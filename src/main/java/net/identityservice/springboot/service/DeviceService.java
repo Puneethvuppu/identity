@@ -9,8 +9,4 @@ public interface DeviceService {
 	Device getDeviceById(long id);
 	Device updateDevice(Device user_device_details , long id);
 	void deleteDevice(long id);
-	
-	
-	
-	
 }

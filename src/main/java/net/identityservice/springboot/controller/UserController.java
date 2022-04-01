@@ -4,7 +4,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.identityservice.springboot.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +55,7 @@ public class UserController {
 		final String uri1 = "http://172.31.33.44:8080/api/bank"; // internal API call to store bankAccountNumber
 		RestTemplate restTemplate = new RestTemplate();
 		String isResponse = restTemplate.postForObject(uri1,bank,String.class);
+
 		String addressDetail=rlos.getAddress();
 		Address address=new Address();
 		address.setUserId(userId);
@@ -96,12 +96,13 @@ public class UserController {
 	@RequestMapping(value = "/enterOTP", method = RequestMethod.POST)
 	public ApiResponseCheckUser enterOTP(@RequestBody RequestEntityEnterOTP requestEntityEnterOTP) {
 		long uId=requestEntityEnterOTP.getUserId();
+
 		int OTP=requestEntityEnterOTP.getOTP();
 		String isValid=userService.validateOTP(OTP, uId);
-		if(isValid=="true") {
+		if(isValid.equals("true")) {
 			return new ApiResponseCheckUser(uId, HttpStatus.CREATED.value(), "Correct OTP! Account validated!");
 		}
-		else if(isValid=="false"){
+		else if(isValid.equals("false")){
 			return new ApiResponseCheckUser(uId, HttpStatus.NOT_FOUND.value(), "Incorrect OTP! Re-enter OTP & UserId.");
 			
 		}
